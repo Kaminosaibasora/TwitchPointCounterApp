@@ -12,6 +12,7 @@ using System.Net.Http;
 using System.Net.Sockets;
 using System.Security.AccessControl;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TwitchLib.Api;
@@ -32,8 +33,14 @@ namespace TwitchPointCounterApp.Services
     {
         private MainForm _form;
         private HttpServer webServer;
-        private readonly string ClientId = Properties.Settings.Default.clientid;
+
+        private readonly string ClientId     = Properties.Settings.Default.clientid;
         private readonly string ClientSecret = Properties.Settings.Default.clientsecret;
+
+        private string CachedOwnerOfChannelAccessToken = "needsaccesstoken";
+        private string TwitchChannelId;
+        private string TwitchChannelName;
+
         private readonly List<string> Scopes = new List<string> { 
             "user:edit", "chat:read", "chat:edit", "channel:moderate", "whispers:read", "whispers:edit", "bits:read", "channel:read:subscriptions", "user:read:email", "user:read:subscriptions"
         };
@@ -42,12 +49,22 @@ namespace TwitchPointCounterApp.Services
         private TwitchClient OwnerOfChannelConnection;
         private TwitchAPI TheTwitchAPI;
 
-        private string CachedOwnerOfChannelAccessToken = "needsaccesstoken";
-        private string TwitchChannelId;
-        private string TwitchChannelName;
-
         public Dictionary<string, string> CommandStaticResponses;
 
+        public WebServicesAll(MainForm form, Dictionary<string, string> command, Dictionary<string, string> tokenData)
+        {
+            _form = form;
+            CommandStaticResponses = command;
+            if (tokenData.ContainsKey("AccessToken"))
+            {
+                CachedOwnerOfChannelAccessToken = tokenData["AccessToken"];
+                TwitchChannelId                 = tokenData["ID"];
+                TwitchChannelName               = tokenData["Name"];
+                InitializeOwnerOfChanenelConnection(TwitchChannelName, CachedOwnerOfChannelAccessToken);
+                InitializeTwitchAPI(CachedOwnerOfChannelAccessToken);
+            }
+        }
+        
         public WebServicesAll(MainForm form, Dictionary<string, string> command)
         {
             _form = form;
@@ -175,6 +192,7 @@ namespace TwitchPointCounterApp.Services
                 return;
             }));
         }
+
         private void Client_OnMessageReceived(object sender, OnMessageReceivedArgs e)
         {
             Log(e.ChatMessage.Username + " : " + e.ChatMessage.Message);
@@ -198,9 +216,19 @@ namespace TwitchPointCounterApp.Services
             if (commandText.Equals("pc", StringComparison.OrdinalIgnoreCase))
             {
                 OwnerOfChannelConnection.SendMessage(TwitchChannelName, $"Vous avez {_form.score.GetScore(userCommand)} points !");
-            }
 
-            if (CommandStaticResponses.ContainsKey(commandText))
+            }else if (commandText.Equals("top", StringComparison.OrdinalIgnoreCase))
+            {
+                string content = "";
+                int nb = 0;
+                foreach (var item in _form.score.GetTopScores())
+                {
+                    if (nb < 5)
+                        content += item + " !\n";
+                    nb++;
+                }
+                OwnerOfChannelConnection.SendMessage(TwitchChannelName, $"Le TOP 5 : \n{content}");
+            }else if (CommandStaticResponses.ContainsKey(commandText))
             {
                 OwnerOfChannelConnection.SendMessage(TwitchChannelName, CommandStaticResponses[commandText]);
             }
@@ -213,7 +241,6 @@ namespace TwitchPointCounterApp.Services
 
         private void BotConnection_OnUserJoined(object sender, OnUserJoinedArgs e)
         {
-            Log(e.Username + "est arrivé.");
             _form.Invoke(new MethodInvoker(delegate ()
             {
                 _form.viewversList.Items.Add(e.Username);
@@ -249,6 +276,17 @@ namespace TwitchPointCounterApp.Services
                 webServer.Stop();
                 webServer.Dispose();
             }
+        }
+
+        public string GetJsonTokenSaver()
+        {
+            var dataJson = new
+            {
+                AccessToken = CachedOwnerOfChannelAccessToken,
+                ID          = TwitchChannelId,
+                Name        = TwitchChannelName,
+            };
+            return JsonSerializer.Serialize(dataJson);
         }
 
     }

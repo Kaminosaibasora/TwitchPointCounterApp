@@ -28,16 +28,15 @@ namespace TwitchPointCounterApp
         public bool          first = false;
         public MainForm()
         {
+            saver   = new Saver();
+            overlay = new Overlay();
 
             twichService = new WebServicesAll(this, new Dictionary<string, string>
             {
-                {"pointcounter", "Point Counter est ... " },
-                {"command", "pc pointcounter" }
-            });
+                {"PCcommand", "Commandes disponibles : pc; top" }
+            }, saver.LoadToken());
             twichService.InitializeWebServer();
 
-            saver = new Saver();
-            overlay = new Overlay();
 
             InitializeComponent();
 
@@ -60,6 +59,8 @@ namespace TwitchPointCounterApp
             Controls.AddRange(new Control[] { menuStrip, viewversBox, currentViewverLabel, addOneButton, lessOneButton, topBox, chatBox });
 
             score = saver.Load();
+            majTopView();
+            overlay.majOverlay(score);
 
             // ################# TEST ####################
 
@@ -113,6 +114,7 @@ namespace TwitchPointCounterApp
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             saver.Save(score);
+            saver.SaveToken(twichService.GetJsonTokenSaver());
             twichService.Closed();
         }
 
