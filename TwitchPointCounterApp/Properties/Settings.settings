@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="TwitchPointCounterApp.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="clientid" Type="System.String" Scope="User">
+      <Value Profile="(Default)">hrrcjwy1xrr4cholhol9soa12qbi8h</Value>
+    </Setting>
+    <Setting Name="clientsecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">e8qu5wth73cid27wlp1m4znxdp4hpi</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

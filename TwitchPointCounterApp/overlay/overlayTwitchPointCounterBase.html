@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overlay Twitch Point Counter</title>
+    <link rel="stylesheet" href="overlayTwitchPointCounter.css">
+</head>
+<body>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(function(){
+                console.log("Apparition");
+                let overlay = document.querySelectorAll("li");
+                overlay.forEach((element) => {
+                    element.style.width = "240px";
+                    element.style.paddingLeft = "10px";
+                    element.style.paddingRight = "10px";
+                });
+                let h2 = document.querySelector("h2");
+                h2.style.opacity = "1";
+            }, 25000);
+            setTimeout(() => {
+                    console.log("disparition");
+                    let overlay = document.querySelectorAll("li");
+                    overlay.forEach((element) => {
+                        element.style.width = "0px";
+                        element.style.paddingLeft = "0px";
+                        element.style.paddingRight = "0px";
+                    });
+                    let h2 = document.querySelector("h2");
+                    h2.style.opacity = "0";
+            }, 35000);
+            setTimeout(() => {
+                location.reload();
+            }, 60000);
+        });
+    </script>
+    <h2>Point Counter</h2>
+    <ol>||</ol>
+</body>
+</html>

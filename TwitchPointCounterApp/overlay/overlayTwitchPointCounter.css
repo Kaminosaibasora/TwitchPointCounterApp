@@ -1,0 +1,35 @@
+body {
+    background-color: rgba(0, 0, 0, 0);
+    /* opacity: 0; */
+}
+
+h2 {
+    color:whitesmoke;
+    margin-left: 40px;
+    width: 220px;
+    text-align: center;
+    opacity: 0;
+    transition : opacity 1s ease-in-out;
+}
+
+li {
+    background-color: grey;
+    color:whitesmoke;
+    border-radius: 20px 5px;
+    display: grid;
+    grid-template-columns: 170px 70px;
+    overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 0px;
+    transition : width 2s ease-in-out, padding-left 2s ease-in-out, padding-right 2s ease-in-out;
+}
+
+strong {
+    text-align: center;
+    font-style: italic;
+}
