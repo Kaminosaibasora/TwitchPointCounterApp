@@ -55,7 +55,7 @@ namespace TwitchPointCounterApp.Services
         {
             _form = form;
             CommandStaticResponses = command;
-            if (tokenData.ContainsKey("AccessToken"))
+            if (tokenData.ContainsKey("AccessToken") && tokenData["AccessToken"] != "needsaccesstoken")
             {
                 CachedOwnerOfChannelAccessToken = tokenData["AccessToken"];
                 TwitchChannelId                 = tokenData["ID"];
@@ -213,7 +213,7 @@ namespace TwitchPointCounterApp.Services
             string commandText = e.Command.CommandText.ToLower();
             string userCommand = e.Command.ChatMessage.DisplayName;
 
-            if (commandText.Equals("pc", StringComparison.OrdinalIgnoreCase))
+            if (commandText.Equals("pc", StringComparison.OrdinalIgnoreCase) && _form.menuStrip.cpMenuCheck)
             {
                 OwnerOfChannelConnection.SendMessage(TwitchChannelName, $"Vous avez {_form.score.GetScore(userCommand)} points !");
 
@@ -287,6 +287,14 @@ namespace TwitchPointCounterApp.Services
                 Name        = TwitchChannelName,
             };
             return JsonSerializer.Serialize(dataJson);
+        }
+
+        public void DestructionToken()
+        {
+            OwnerOfChannelConnection.Disconnect();
+            CachedOwnerOfChannelAccessToken = "needsaccesstoken";
+            TwitchChannelId = String.Empty;
+            TwitchChannelName = String.Empty;
         }
 
     }

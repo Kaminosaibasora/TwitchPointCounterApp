@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Linq;
+using TwitchLib.Api.Models.Undocumented.ChannelPanels;
 using TwitchPointCounterApp.objects;
 
 namespace TwitchPointCounterApp.Services
@@ -66,6 +67,49 @@ namespace TwitchPointCounterApp.Services
             return new Score();
         }
 
+        public async void ImportScore(string path)
+        {
+            string data = String.Empty;
+            if (File.Exists(path))
+            {
+                using(StreamReader sr = File.OpenText(path))
+                {
+                    data = sr.ReadToEnd();
+                }
+            }
+            using(StreamWriter sw = File.CreateText(FileName))
+            {
+                if (data != String.Empty)
+                {
+                    await sw.WriteAsync(data);
+                    MessageBox.Show("Importation Score : SUCCESS");
+                }
+            }
+        }
+
+        public async void ExportScore(string path)
+        {
+            string data = String.Empty;
+            using(StreamReader streamReader = File.OpenText(FileName)) 
+            {
+                data = streamReader.ReadToEnd();
+            }
+            using(StreamWriter sw = File.CreateText(path))
+            {
+                await sw.WriteAsync(data);
+                MessageBox.Show("Export Score : SUCCESS");
+            }
+        }
+
+        public void ResetScore()
+        {
+            using (StreamWriter sw = File.CreateText(FileName))
+            {
+                sw.Write("");
+                MessageBox.Show("Reset Score : SUCCESS");
+            }
+        }
+
         public void SaveToken(string jsontoken)
         {
             using (StreamWriter sw = File.CreateText(ConfigFileName))
@@ -98,6 +142,14 @@ namespace TwitchPointCounterApp.Services
                 }
             }
             return new Dictionary<string, string> {};
+        }
+
+        public void DestructionToken()
+        {
+            if (File.Exists(ConfigFileName))
+            {
+                File.Delete(ConfigFileName);
+            }
         }
 
     }

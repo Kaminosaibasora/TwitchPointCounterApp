@@ -61,11 +61,6 @@ namespace TwitchPointCounterApp
             score = saver.Load();
             majTopView();
             overlay.majOverlay(score);
-
-            // ################# TEST ####################
-
-            // ========================== ACTION ==========================
-
         }
 
         public void majTopView()
