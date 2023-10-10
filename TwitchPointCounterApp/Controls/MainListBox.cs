@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TwitchPointCounterApp.Controls
@@ -18,8 +14,11 @@ namespace TwitchPointCounterApp.Controls
             };
         }
 
-        // fonction de mise à jour dynamique
-
+        /// <summary>
+        /// Changement de la valeur sélectionnée.
+        /// Changing the selected value.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnSelectedValueChanged(EventArgs e)
         {
             base.OnSelectedValueChanged(e);

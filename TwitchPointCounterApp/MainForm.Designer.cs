@@ -62,7 +62,7 @@
             this.button1.TabIndex = 3;
             this.button1.Text = "+1";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.addOneButton_Click);
+            this.button1.Click += new System.EventHandler(this.AddOneButton_Click);
             // 
             // button2
             // 
@@ -72,7 +72,7 @@
             this.button2.TabIndex = 4;
             this.button2.Text = "-1";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.lessOneButton_Click);
+            this.button2.Click += new System.EventHandler(this.LessOneButton_Click);
             // 
             // mainGroupBox3
             // 
@@ -170,7 +170,6 @@
             this.mainMenuStrip1.Size = new System.Drawing.Size(750, 24);
             this.mainMenuStrip1.TabIndex = 7;
             this.mainMenuStrip1.Text = "mainMenuStrip1";
-            this.mainMenuStrip1.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.mainMenuStrip1_ItemClicked);
             // 
             // MainForm
             // 

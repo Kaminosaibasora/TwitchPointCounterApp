@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using TwitchPointCounterApp.objects;
 
 namespace TwitchPointCounterApp.Services
 {
+    /// <summary>
+    /// Classe de gestion de l'overlay.
+    /// Overlay management class.
+    /// </summary>
     public class Overlay
     {
-        public string htmlOverlayName = "overlayTwitchPointCounterBase.html";
+        public string htmlOverlayName           = "overlayTwitchPointCounterBase.html";
         public string htmlOverlayDefinitiveName = "overlayTwitchPointCounter.html";
-        public string cssOverlayName = "overlayTwitchPointCounter.css";
-        public string overlayPath = "../../overlay/";
+        public string overlayPath               = "../../overlay/";
         public string fullPathBaseOverlay;
         public string fullPathOverlay;
 
-        public Overlay() 
-        { 
+        public Overlay()
+        {
             fullPathBaseOverlay = Path.Combine(overlayPath, htmlOverlayName);
             fullPathOverlay = Path.Combine(overlayPath, htmlOverlayDefinitiveName);
         }
 
-        public void majOverlay(Score score)
+        /// <summary>
+        /// Mise à jour de l'overlay selon les scores.
+        /// </summary>
+        /// <param name="score">instance de score</param>
+        public void MajOverlay(Score score)
         {
             // PREPARE
             string scoresHTML = "";
@@ -36,13 +38,13 @@ namespace TwitchPointCounterApp.Services
             }
             // READ
             string dataHtml;
-            using(StreamReader sr = new StreamReader(fullPathBaseOverlay))
+            using (StreamReader sr = new StreamReader(fullPathBaseOverlay))
             {
                 dataHtml = sr.ReadToEnd();
             }
             // WRITE
             int idex = dataHtml.IndexOf("||");
-            dataHtml = dataHtml.Substring(0, idex) + scoresHTML + dataHtml.Substring(idex+2);
+            dataHtml = dataHtml.Substring(0, idex) + scoresHTML + dataHtml.Substring(idex + 2);
             using (StreamWriter sw = new StreamWriter(fullPathOverlay))
             {
                 sw.Write(dataHtml);

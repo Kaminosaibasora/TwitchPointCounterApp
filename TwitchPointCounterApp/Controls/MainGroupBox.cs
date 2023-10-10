@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace TwitchPointCounterApp.Controls
 {
@@ -12,19 +7,15 @@ namespace TwitchPointCounterApp.Controls
         public MainGroupBox()
         {
             AutoSize = false;
-            Width = 50;
-            Height = 50;
+            Width    = 50;
+            Height   = 50;
         }
 
         public MainGroupBox(string name)
         {
-            Text = name;
+            Text     = name;
             AutoSize = false;
-            Width = 100;
+            Width    = 100;
         }
-
-        // fonction de disposition
-        // Fonction de taille
-        // fonction de contenu
     }
 }

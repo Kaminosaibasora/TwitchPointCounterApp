@@ -222,7 +222,6 @@
     <Compile Include="Controls\MainMenuStrip.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="DataProtected\InformationsControlled.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -234,7 +233,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Overlay.cs" />
     <Compile Include="Services\Saver.cs" />
-    <Compile Include="Services\WebServices.cs" />
     <Compile Include="Services\WebServicesAll.cs" />
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
